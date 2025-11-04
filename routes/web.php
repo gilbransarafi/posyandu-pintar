@@ -1,16 +1,15 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    // Langsung arahkan user ke dashboard
-    return redirect()->route('dashboard');
-});
+    return view('welcome'); // ganti 'landing' ke resources/views/landing.blade.php atau view yang sesuai
+})->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard')
+    ->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

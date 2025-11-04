@@ -59,3 +59,35 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## OpenAI / CodeGPT API Key
+
+This project supports using an OpenAI API key for integrations (for example, a local CodeGPT or OpenAI client).
+
+How to provide your API key locally:
+
+- Create a local `.env` file in the project root (copy from `.env.example`) and set the `OPENAI_API_KEY` value. Do NOT commit your `.env` file.
+
+	Example (.env):
+
+	OPENAI_API_KEY=sk-...
+
+- On Windows PowerShell you can create the file and set the value quickly:
+
+	```powershell
+	cp .env.example .env; (Get-Content .env) -replace 'OPENAI_API_KEY=', 'OPENAI_API_KEY=sk-your-key-here' | Set-Content .env
+	```
+
+- Alternatively, you can set the environment variable for your current PowerShell session:
+
+	```powershell
+	$env:OPENAI_API_KEY = 'sk-your-key-here'
+	```
+
+Where the application reads the key:
+
+- `config/services.php` includes an `openai` entry that reads `OPENAI_API_KEY`.
+- A small `config/openai.php` config file is provided with `api_key`, `default_model`, and optional `base_uri` settings.
+
+If you use a VS Code extension named CodeGPT or similar, set the API key in the extension settings or rely on the environment variable above.

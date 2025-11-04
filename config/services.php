@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'openai' => [
+        // Primary OpenAI API key. Set this in your local .env file as OPENAI_API_KEY
+        'key' => env('OPENAI_API_KEY'),
+        // Optional base URL for proxies or alternative OpenAI-compatible endpoints
+        'base_uri' => env('OPENAI_BASE_URI', null),
+    ],
+
 ];
