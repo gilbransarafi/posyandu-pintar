@@ -19,10 +19,10 @@
         <section class="w-full h-72 md:h-96 bg-cover bg-center" style="background-image: url('{{ $hero }}')">
             <div class="w-full h-full bg-black bg-opacity-40 flex items-center">
                 <div class="max-w-7xl mx-auto px-6 text-white">
-                    <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Selamat Datang<br>di SIPERDANA / Posyandu Pintar</h1>
-                    <p class="mt-3 max-w-2xl text-sm md:text-base text-gray-200">Sistem Informasi untuk mendukung penyelenggaraan kegiatan kesehatan dan persidangan secara digital.</p>
+                    <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Selamat Datang<br>di Posyandu Pintar</h1>
+                    <p class="mt-3 max-w-2xl text-sm md:text-base text-gray-200">Sistem Informasi untuk mendukung penyelenggaraan kegiatan kesehatan masyarakat secara digital.</p>
                     <div class="mt-5">
-                        <a href="{{ route('dashboard') }}" class="inline-block bg-white text-green-700 px-4 py-2 rounded-md font-medium mr-2">Dashboard</a>
+                        <a href="{{ route('dashboard') }}" class="inline-block bg-white text-blue-700 px-4 py-2 rounded-md font-medium mr-2">Dashboard</a>
                         <a href="#layanan" class="inline-block border border-white text-white px-4 py-2 rounded-md">Pelajari</a>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                 <!-- Welcome Card (floating) -->
                 <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 card-shadow">
                     <div class="text-center">
-                        <h1 class="text-3xl font-bold text-green-600">Selamat Datang di Posyandu Pintar</h1>
+                        <h1 class="text-3xl font-bold text-blue-600">Selamat Datang di Posyandu Pintar</h1>
                         <p class="mt-2 text-gray-600">Menyediakan layanan kesehatan ibu & anak, imunisasi, dan edukasi masyarakat.</p>
                     </div>
                 </div>
@@ -70,8 +70,8 @@
                             </div>
                         </section>
 
-                        <!-- Green Feature Band -->
-                        <section class="p-6 rounded-lg" style="background: linear-gradient(180deg,#0f766e22,#10b98111)">
+                        <!-- blue Feature Band -->
+                        <section class="p-6 rounded-lg" style="background: linear-gradient(180deg,#BFDBFEe2,#1E40AF11);">
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                                 <div class="flex justify-center md:justify-start">
                                     <div class="w-56 rounded-lg overflow-hidden bg-white shadow">
@@ -80,21 +80,21 @@
                                 </div>
 
                                 <div class="md:col-span-2">
-                                    <h3 class="text-xl font-bold">Apa Kegunaan Kami? Sistem Informasi Persidangan Paripurna</h3>
-                                    <p class="text-sm text-gray-800 mt-2">Menyiapkan dokumen digital untuk pimpinan dan anggota, memudahkan akses bahan rapat, dan mendukung transparansi.</p>
+                                    <h3 class="text-xl font-bold">Apa Kegunaan Kami? Sistem Informasi Posyandu Pintar</h3>
+                                    <p class="text-sm text-gray-800 mt-2">Mengelola data kesehatan balita, ibu hamil, dan lansia secara digital untuk mempermudah pemantauan dan pelaporan kader.</p>
 
                                     <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
                                         <div class="p-3 bg-white rounded shadow-sm">
-                                            <div class="font-semibold text-green-700">Layanan Terpercaya</div>
-                                            <div class="text-gray-600">Keaslian & keamanan data.</div>
+                                            <div class="font-semibold text-blue-700">Pendataan Akurat</div>
+                                            <div class="text-gray-600">Mencatat data gizi, imunisasi, dan riwayat kesehatan balita secara terpusat dan digital.</div>
                                         </div>
                                         <div class="p-3 bg-white rounded shadow-sm">
-                                            <div class="font-semibold text-green-700">Akses Cepat</div>
-                                            <div class="text-gray-600">Bahan rapat bisa diakses kapan saja.</div>
+                                            <div class="font-semibold text-blue-700">Pemantauan Mudah</div>
+                                            <div class="text-gray-600">Kader dapat melihat grafik pertumbuhan anak dan jadwal imunisasi kapan saja.</div>
                                         </div>
                                         <div class="p-3 bg-white rounded shadow-sm">
-                                            <div class="font-semibold text-green-700">Teruji & Andal</div>
-                                            <div class="text-gray-600">Mendukung proses e-Parlemen.</div>
+                                            <div class="font-semibold text-blue-700">Pelaporan Cepat</div>
+                                            <div class="text-gray-600">Membuat laporan bulanan Posyandu (LBS) secara otomatis tanpa rekap manual.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +128,7 @@
                         <p class="text-sm text-gray-500 mb-6">Pelayanan rutin yang kami sediakan untuk ibu dan anak.</p>
 
                         <div class="grid grid-cols-1 gap-3">
-                            <div class="flex items-start gap-3 p-4 bg-green-50 rounded-lg">
+                            <div class="flex items-start gap-3 p-4 bg-blue-50 rounded-lg">
                                 <div class="text-2xl">📌</div>
                                 <div>
                                     <div class="font-semibold text-gray-800">Penimbangan Balita</div>
@@ -136,7 +136,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex items-start gap-3 p-4 bg-green-50 rounded-lg">
+                            <div class="flex items-start gap-3 p-4 bg-blue-50 rounded-lg">
                                 <div class="text-2xl">💉</div>
                                 <div>
                                     <div class="font-semibold text-gray-800">Imunisasi Anak</div>
@@ -144,7 +144,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex items-start gap-3 p-4 bg-green-50 rounded-lg">
+                            <div class="flex items-start gap-3 p-4 bg-blue-50 rounded-lg">
                                 <div class="text-2xl">🧪</div>
                                 <div>
                                     <div class="font-semibold text-gray-800">Pemeriksaan Ibu Hamil</div>
@@ -152,7 +152,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex items-start gap-3 p-4 bg-green-50 rounded-lg">
+                            <div class="flex items-start gap-3 p-4 bg-blue-50 rounded-lg">
                                 <div class="text-2xl">🩺</div>
                                 <div>
                                     <div class="font-semibold text-gray-800">Konsultasi Kesehatan</div>

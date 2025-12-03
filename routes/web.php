@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome'); // ganti 'landing' ke resources/views/landing.blade.php atau view yang sesuai

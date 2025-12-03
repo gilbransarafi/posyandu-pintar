@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -31,8 +31,8 @@
 
     <!-- 🟩 LOGO + BRAND -->
     <div class="flex items-center gap-3">
-      @if(file_exists(public_path('images/posyandu/logo.png')))
-        <img id="logo-img" src="{{ asset('images/posyandu/logo.png') }}" alt="logo" class="w-12 h-12 object-contain">
+      @if(file_exists(public_path('images/Logo Posyandu.png')))
+        <img id="logo-img" src="{{ asset('images/logo-posyandu.png') }}" alt="logo" class="w-12 h-12 object-contain">
       @else
         <div id="logo-fallback" class="w-12 h-12 rounded-full bg-green-700 flex items-center justify-center text-white font-bold">SD</div>
       @endif
@@ -46,9 +46,9 @@
     <div class="flex items-center gap-6">
       <div id="nav-links" class="hidden md:flex items-center gap-6 text-sm">
         <a href="#" class="nav-link text-white hover:underline transition-colors duration-300">Beranda</a>
-        <a href="#" class="nav-link text-white hover:underline transition-colors duration-300">Tentang Kami</a>
-        <a href="#" class="nav-link text-white hover:underline transition-colors duration-300">Panduan</a>
-        <a href="#" class="nav-link text-white hover:underline transition-colors duration-300">Hubungi Kami</a>
+        <a href="#tentang-kami" class="nav-link text-white hover:underline transition-colors duration-300">Tentang Kami</a>
+        <a href="#dokumentasi" class="nav-link text-white hover:underline transition-colors duration-300">Dokumentasi</a>
+        <a href="#footer" class="nav-link text-white hover:underline transition-colors duration-300">Hubungi Kami</a>
       </div>
 
       <!-- 🟩 LOGIN BUTTON -->
@@ -162,10 +162,19 @@
 
 
 <!-- HERO -->
-<section class="relative">
-  <div class="h-[450px] md:h-[750px] w-full bg-cover bg-center" 
-       style="background-image: url('{{ asset('images/bg-gedung.jpg') }}');">
-    <div class="absolute inset-0 bg-black/40"></div>
+<div class="h-[450px] md:h-[750px] w-full relative overflow-hidden">
+
+    <div id="hero-track" class="flex h-full w-full transition-transform duration-1000 ease-in-out">
+    
+    <div class="hero-slide w-full h-full flex-shrink-0 bg-cover bg-center" 
+         style="background-image: url('{{ asset('images/kader formal pose.jpg') }}');">
+    </div>
+    
+    <div class="hero-slide w-full h-full flex-shrink-0 bg-cover bg-center" 
+         style="background-image: url('{{ asset('images/kader foto.jpg') }}');">
+    </div>
+    
+    </div>
 
     <div class="absolute inset-0 flex items-center">
       <div class="max-w-7xl mx-auto px-6">
@@ -206,7 +215,7 @@
 <main id="layanan" class="max-w-7xl mx-auto px-6 -mt-12">
   <!-- 🟩 CARD UCAPAN SELAMAT DATANG -->
   <div class="bg-white card-shadow p-6 rounded-lg mb-8 mt-24 text-center">
-    <h2 class="text-3xl font-bold text-green-600">SELAMAT DATANG DI POSYANDU ILP PINTAR</h2>
+    <h2 class="text-3xl font-bold text-blue-600">SELAMAT DATANG DI POSYANDU ILP PINTAR</h2>
     <p class="mt-2 text-gray-600">
       Melayani ibu hamil, bayi, balita, remaja, dewasa, pralansia dan lansia.
     </p>
@@ -217,7 +226,7 @@
     <!-- 🟩 Kolom 1 -->
     <div class="bg-white border border-gray-200 p-8 rounded-xl shadow-sm hover:shadow-md text-center hover:-translate-y-1 transition-all duration-300">
       <div class="text-4xl">🤝</div>
-      <div class="font-semibold text-green-700 mt-3 text-lg">Kolaborasi</div>
+      <div class="font-semibold text-blue-700 mt-3 text-lg">Kolaborasi</div>
       <p class="text-sm text-gray-600 mt-2">
         Terhubung dengan kader dan tenaga medis melalui sistem digital yang mudah digunakan dan efisien.
       </p>
@@ -226,7 +235,7 @@
     <!-- 🟩 Kolom 2 -->
     <div class="bg-white border border-gray-200 p-8 rounded-xl shadow-sm hover:shadow-md text-center hover:-translate-y-1 transition-all duration-300">
       <div class="text-4xl">📋</div>
-      <div class="font-semibold text-green-700 mt-3 text-lg">Partisipasi</div>
+      <div class="font-semibold text-blue-700 mt-3 text-lg">Partisipasi</div>
       <p class="text-sm text-gray-600 mt-2">
         Ikut serta dalam kegiatan posyandu, mencatat data kesehatan seluruh siklus hidup manusi.
       </p>
@@ -235,7 +244,7 @@
     <!-- 🟩 Kolom 3 -->
     <div class="bg-white border border-gray-200 p-8 rounded-xl shadow-sm hover:shadow-md text-center hover:-translate-y-1 transition-all duration-300">
       <div class="text-4xl">🌿</div>
-      <div class="font-semibold text-green-700 mt-3 text-lg">Manfaat</div>
+      <div class="font-semibold text-blue-700 mt-3 text-lg">Manfaat</div>
       <p class="text-sm text-gray-600 mt-2">
         Meningkatkan transparansi, efisiensi, dan akuntabilitas dalam pelayanan kesehatan masyarakat.
       </p>
@@ -244,7 +253,7 @@
 </main>
 
    <!-- Section yang sudah disesuaikan -->
-<section class="bg-[color: #b9e6b6] py-14 px-6 md:px-16 rounded-none mb-12">
+<section id="tentang-kami" class="bg-[color: #b9e6b6] py-14 px-6 md:px-16 rounded-none mb-12">
   <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
     <!-- KIRI: Gambar -->
     <div class="relative flex justify-center md:justify-start">
@@ -270,7 +279,7 @@
 
         <!-- Lingkaran info -->
         <div
-          class="absolute -right-6 top-4 bg-green-700 text-white rounded-full px-6 py-4 text-center shadow-lg flex flex-col items-center justify-center"
+          class="absolute -right-6 top-4 bg-blue-700 text-white rounded-full px-6 py-4 text-center shadow-lg flex flex-col items-center justify-center"
           style="width:110px; height:110px;"
         >
           <span class="font-extrabold text-lg leading-none">1,485+</span>
@@ -280,8 +289,8 @@
     </div>
 
     <!-- KANAN: Teks -->
-    <div class="text-green-700 md:pl-8">
-      <h4 class="text-green-700 font-semibold text-sm uppercase tracking-widest mb-3">
+    <div class="text-blue-700 md:pl-8">
+      <h4 class="text-blue-700 font-semibold text-sm uppercase tracking-widest mb-3">
         SISTEM INFORMASI POSYANDU ILP PINTAR
       </h4>
 
@@ -290,7 +299,7 @@
         Sistem Informasi POSYANDU ILP PINTAR
       </h2>
 
-      <p class="text-green-900/80 text-base leading-relaxed mb-8 max-w-prose">
+      <p class="text-blue-900/80 text-base leading-relaxed mb-8 max-w-prose">
         Sistem Informasi POSYANDU ILP PINTAR hadir untuk mendukung pelayanan kesehatan masyarakat yang terpadu dan efisien. 
         Sistem ini membantu kader, tenaga medis, serta masyarakat dalam mengelola data kesehatan secara digital untuk seluruh tahapan 
         kehidupan — mulai dari ibu hamil, bayi, balita, remaja, hingga lansia.
@@ -307,7 +316,7 @@
           </div>
           <div>
             <div class="font-semibold text-green-700">Layanan Terpercaya</div>
-            <div class="text-green-700/70 text-sm">Menjamin keakuratan dan keamanan data kesehatan masyarakat melalui sistem berbasis digital yang terintegrasi.</div>
+            <div class="text-blue-700/70 text-sm">Menjamin keakuratan dan keamanan data kesehatan masyarakat melalui sistem berbasis digital yang terintegrasi.</div>
           </div>
         </div>
 
@@ -319,7 +328,7 @@
           </div>
           <div>
             <div class="font-semibold text-blue-700">Akses Cepat & Mudah</div>
-            <div class="text-green-900/70 text-sm">Masyarakat dan kader dapat dengan mudah mencatat, memantau, dan mengakses data kesehatan melalui perangkat digital.</div>
+            <div class="text-blue-900/70 text-sm">Masyarakat dan kader dapat dengan mudah mencatat, memantau, dan mengakses data kesehatan melalui perangkat digital.</div>
           </div>
         </div>
 
@@ -331,7 +340,7 @@
           </div>
           <div>
             <div class="font-semibold text-red-600">Teruji dan Andal</div>
-            <div class="text-green-900/70 text-sm">Mendukung peningkatan transparansi, efisiensi, dan akuntabilitas dalam pelayanan kesehatan menuju Posyandu modern berbasis teknologi.</div>
+            <div class="text-blue-900/70 text-sm">Mendukung peningkatan transparansi, efisiensi, dan akuntabilitas dalam pelayanan kesehatan menuju Posyandu modern berbasis teknologi.</div>
           </div>
         </div>
       </div>
@@ -342,15 +351,15 @@
 
 
     <!-- galeri -->
-    <section class="bg-white card-shadow p-6 rounded-lg mb-10">
-      <h3 class="text-xl font-semibold mb-2">Dokumentasi Persidangan Paripurna</h3>
+    <section id="dokumentasi" class="bg-white card-shadow p-6 rounded-lg mb-10">
+      <h3 class="text-xl font-semibold mb-2">Dokumentasi Pelaksanaan Posyandu</h3>
       <p class="text-sm text-gray-500 mb-4">Kegiatan dan fasilitas.</p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         @if(count($gallery) > 0)
           @foreach($gallery as $img)
             <figure class="overflow-hidden rounded-lg shadow">
-              <img src="{{ asset('images/posyandu/' . basename($img)) }}" alt="Foto posyandu {{ $loop->iteration }}" class="w-full h-48 object-cover">
+              <img src="{{ asset('images/posyandu/' . basename($img)) }}" alt="Foto posyandu {{ $loop->iteration }}" class="w-full h-80 object-cover">
             </figure>
           @endforeach
         @else
@@ -362,27 +371,32 @@
     <!-- sekilas / video placeholder -->
     <section class="mb-12">
       <div class="card-shadow bg-white p-6 rounded-lg">
-        <h4 class="font-semibold mb-4">Sekilas SIPERDANA</h4>
-        <div class="w-full h-64 bg-black rounded overflow-hidden flex items-center justify-center text-white">
-          <span>Video placeholder</span>
+        <h4 class="font-semibold mb-4">Sekilas POSYANDU PINTAR</h4>
+        <div class="w-full h-[500px] md:h-[650px] rounded-lg overflow-hidden shadow-lg bg-black flex items-center justify-center">
+    
+          <video autoplay muted loop playsinline class="w-full h-full object-contain">
+            <source src="{{ asset('videos/video placeholder 1.mp4') }}" type="video/mp4">
+            Browser Anda tidak mendukung tag video.
+          </video>
+
         </div>
       </div>
     </section>
   </main>
 
   <!-- footer -->
-  <footer class="bg-green-900 text-gray-200 py-8 mt-12">
+  <footer id="footer" class="bg-blue-900 text-gray-200 py-8 mt-12">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
       <div>
         <div class="flex items-center gap-3">
-          @if(file_exists(public_path('images/posyandu/logo.png')))
-            <img src="{{ asset('images/posyandu/logo.png') }}" alt="logo" class="w-10 h-10">
+          @if(file_exists(public_path('images/logo-posyandu.png')))
+            <img src="{{ asset('images/logo-posyandu.png') }}" alt="logo" class="w-10 h-10">
           @else
             <div class="w-10 h-10 bg-white/10 rounded flex items-center justify-center text-white font-bold">SD</div>
           @endif
           <div>
-            <div class="font-bold">SIPERDANA</div>
-            <div class="text-xs">Sistem Informasi Persidangan Paripurna</div>
+            <div class="font-bold">POSYANDU PINTAR</div>
+            <div class="text-xs">Sistem Informasi Posyandu</div>
           </div>
         </div>
       </div>
@@ -391,20 +405,46 @@
         <div class="font-semibold mb-2">Navigasi</div>
         <ul class="text-sm space-y-1">
           <li><a href="#" class="hover:underline">Beranda</a></li>
-          <li><a href="#" class="hover:underline">Tentang</a></li>
-          <li><a href="#" class="hover:underline">Panduan</a></li>
+          <li><a href="#tentang-kami" class="hover:underline">Tentang</a></li>
+          <li><a href="#dokumentasi" class="hover:underline">Dokumentasi</a></li>
         </ul>
       </div>
 
       <div>
         <div class="font-semibold mb-2">Kontak</div>
-        <div class="text-sm">Jl. Jend. Gatot Subroto, Senayan — Jakarta</div>
-        <div class="text-sm mt-2">info@siperdana.go.id</div>
+        <div class="text-sm">Jl. Rempoa Raya, RT 02/RW 10, Kecamatan Ciputat Timur, Tangerang Selatan.</div>
+        <div class="text-sm mt-2">Telp : +628973794424</div>
       </div>
     </div>
 
-    <div class="text-center text-xs text-gray-300 mt-6">© 2025 SIPERDANA. Semua Hak Dilindungi.</div>
+    <div class="text-center text-xs text-gray-300 mt-6">© 2025 POSYANDU PINTAR. Semua Hak Dilindungi.</div>
   </footer>
+
+  <script>
+    // --- Hero Slideshow (Geser ke Samping) ---
+    (function() {
+        const track = document.getElementById('hero-track');
+        if (!track) return;
+        
+        const slides = track.querySelectorAll('.hero-slide');
+        if (slides.length <= 1) return;
+
+        let currentSlide = 0;
+        const slideInterval = 5000; // 5 detik
+
+        setInterval(() => {
+            // Hitung slide berikutnya
+            currentSlide = (currentSlide + 1) % slides.length;
+            
+            // Pindahkan track-nya
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+        }, slideInterval);
+    })();
+</script>
+
+</body>
+</html>
 
 </body>
 </html>
