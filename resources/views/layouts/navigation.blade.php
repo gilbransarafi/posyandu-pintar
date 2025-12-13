@@ -1,116 +1,117 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
+@php use Illuminate\Support\Str; @endphp
+@php
+    $rekapMenu = $rekap_list ?? [
+        ['no' => 1, 'label' => 'Jumlah WUS / PUS'],
+        ['no' => 2, 'label' => 'Jumlah PUS ikut KB'],
+        ['no' => 3, 'label' => 'Peserta KB MKET'],
+        ['no' => 4, 'label' => 'Peserta KB non MKET'],
+        ['no' => 5, 'label' => 'Jumlah Ibu Hamil'],
+        ['no' => 6, 'label' => 'Ibu Hamil dapat Tablet Besi'],
+        ['no' => 7, 'label' => 'Ibu Hamil Risiko Tinggi'],
+        ['no' => 8, 'label' => 'Ibu Hamil Risiko Tinggi Dirujuk'],
+        ['no' => 9, 'label' => 'Ibu Hamil Anemia'],
+        ['no' => 10, 'label' => 'Ibu Hamil KEK'],
+        ['no' => 11, 'label' => 'Ibu Hamil dapat TT I / TT II'],
+        ['no' => 12, 'label' => 'Ibu Hamil Meninggal'],
+        ['no' => 13, 'label' => 'Ibu Nifas Vit A'],
+        ['no' => 14, 'label' => 'Jumlah Kelahiran'],
+        ['no' => 15, 'label' => 'Kematian Bayi / Balita'],
+        ['no' => 16, 'label' => 'Jumlah Bayi / Balita (S)'],
+        ['no' => 17, 'label' => 'Bayi / Balita dengan KMS (K)'],
+        ['no' => 18, 'label' => 'Bayi / Balita Ditimbang (D)'],
+        ['no' => 19, 'label' => 'Penimbangan Sesuai Rambu Gizi'],
+        ['no' => 20, 'label' => 'Balita Gizi Buruk (Lama/Baru)'],
+        ['no' => 21, 'label' => 'Balita Gizi Buruk Dapat Perawatan'],
+        ['no' => 22, 'label' => 'Balita Bawah Garis Merah (BGM)'],
+        ['no' => 23, 'label' => 'Balita Tidak Naik BB 2x'],
+        ['no' => 24, 'label' => 'Bayi 6-24 bln Gakin MP-ASI'],
+        ['no' => 25, 'label' => 'Bayi 6-24 bln Vit A (6-11)'],
+        ['no' => 26, 'label' => 'Bayi/Anak Vit A (12-59)'],
+        ['no' => 27, 'label' => 'Balita PMT Pemulihan'],
+        ['no' => 28, 'label' => 'Bayi Imunisasi BCG'],
+        ['no' => 29, 'label' => 'Bayi Imunisasi Campak'],
+        ['no' => 30, 'label' => 'Bayi Imunisasi Polio'],
+        ['no' => 31, 'label' => 'ASI Eksklusif'],
+        ['no' => 32, 'label' => 'Bayi BBLR'],
+    ];
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-            </div>
+    $menuSections = [
+        [
+            'title' => 'Dashboard',
+            'items' => [
+                ['label' => 'Dashboard Utama', 'href' => route('dashboard'), 'icon' => 'M3 5h18M3 12h18M3 19h18'],
+            ],
+        ],
+        [
+            'title' => 'Keluarga Berencana',
+            'items' => array_slice($rekapMenu, 0, 4),
+        ],
+        [
+            'title' => 'Ibu Hamil & Nifas',
+            'items' => array_slice($rekapMenu, 4, 10),
+        ],
+        [
+            'title' => 'Bayi & Balita',
+            'items' => array_slice($rekapMenu, 14, 9),
+        ],
+        [
+            'title' => 'Gizi & Imunisasi',
+            'items' => array_slice($rekapMenu, 23),
+        ],
+    ];
+@endphp
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                @auth
-                    <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                <div>{{ Auth::user()->name }}</div>
-
-                                <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </button>
-                        </x-slot>
-
-                        <x-slot name="content">
-                            <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Profile') }}
-                            </x-dropdown-link>
-
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-
-                                <x-dropdown-link :href="route('logout')"
-                                        onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                                    {{ __('Log Out') }}
-                                </x-dropdown-link>
-                            </form>
-                        </x-slot>
-                    </x-dropdown>
-                @else
-                    <div class="flex items-center space-x-4">
-                        <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-gray-900">Login</a>
-                        <a href="{{ route('register') }}" class="text-sm text-gray-600 hover:text-gray-900">Register</a>
-                    </div>
-                @endauth
-            </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+<aside class="hidden md:flex w-72 bg-white border-r border-slate-200 flex-col">
+    <div class="px-6 py-5 flex items-center gap-3 border-b border-slate-200">
+        <div class="h-10 w-10 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold">P</div>
+        <div>
+            <div class="text-lg font-bold text-slate-800">Posyandu Pintar</div>
+            <div class="text-xs text-slate-500">Panel Administrasi</div>
         </div>
     </div>
-
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
-
-        <!-- Responsive Settings Options -->
-        @auth
-            <div class="pt-4 pb-1 border-t border-gray-200">
-                <div class="px-4">
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+    <div class="flex-1 overflow-y-auto py-4">
+        @foreach ($menuSections as $section)
+            <div class="px-4 mb-3">
+                <div class="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400 mb-2">{{ $section['title'] }}</div>
+                <div class="space-y-1">
+                    @foreach ($section['items'] as $item)
+                        @php
+                            $href = $item['href'] ?? (route('dashboard') . '#item-' . $item['no']);
+                            $label = $item['label'];
+                            $active = str_contains(url()->full(), trim($href, '#')) ? 'bg-sky-50 text-sky-700 border-sky-200' : 'text-slate-600 hover:bg-slate-50';
+                        @endphp
+                        <a href="{{ $href }}" class="flex items-center gap-3 px-3 py-2 rounded-lg border border-transparent {{ $active }}">
+                            @if(isset($item['icon']))
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}" />
+                                </svg>
+                            @else
+                                <span class="text-[11px] font-semibold text-slate-400 w-6">{{ $item['no'] ?? '-' }}</span>
+                            @endif
+                            <span class="text-sm">{{ $label }}</span>
+                        </a>
+                    @endforeach
                 </div>
-
-                <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('profile.edit')">
-                        {{ __('Profile') }}
-                    </x-responsive-nav-link>
-
-                    <!-- Authentication -->
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-
-                        <x-responsive-nav-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                            this.closest('form').submit();">
-                            {{ __('Log Out') }}
-                        </x-responsive-nav-link>
-                    </form>
+            </div>
+        @endforeach
+    </div>
+    <div class="p-4 border-t border-slate-200">
+        @auth
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-semibold">
+                    {{ strtoupper(Str::substr(Auth::user()->name, 0, 1)) }}
+                </div>
+                <div>
+                    <div class="text-sm font-semibold text-slate-800">{{ Auth::user()->name }}</div>
+                    <div class="text-xs text-slate-500">{{ Auth::user()->email }}</div>
                 </div>
             </div>
         @else
-            <div class="pt-4 pb-1 border-t border-gray-200">
-                <div class="px-4">
-                    <a href="{{ route('login') }}" class="block text-sm text-gray-600 hover:text-gray-900">Login</a>
-                    <a href="{{ route('register') }}" class="block text-sm text-gray-600 hover:text-gray-900">Register</a>
-                </div>
+            <div class="flex items-center gap-2 text-sm">
+                <a href="{{ route('login') }}" class="text-sky-600 font-semibold">Login</a>
+                <span class="text-slate-400">/</span>
+                <a href="{{ route('register') }}" class="text-slate-600 hover:text-sky-600">Register</a>
             </div>
         @endauth
     </div>
-</nav>
+</aside>
