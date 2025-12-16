@@ -6,7 +6,8 @@
   <title>POSYANDUPINTAR — Sistem Informasi Posyandu</title>
 
   <!-- Tailwind CDN (cepat untuk development/testing) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  @vite('resources/css/app.css')
 
   <style>
     .card-shadow { box-shadow: 0 10px 30px rgba(2,6,23,0.08); border-radius: 14px; }

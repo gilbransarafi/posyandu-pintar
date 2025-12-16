@@ -10,8 +10,14 @@ use App\Models\JumlahPusKb;
 use App\Models\JumlahKbMket;
 use App\Models\JumlahKbNonMket;
 use App\Models\JumlahIbuHamil;
+use App\Models\IbuHamilTabletBesi;
+use App\Models\IbuHamilMeninggal;
+use App\Models\IbuHamilRisikoTinggi;
+use App\Models\IbuHamilAnemia;
+use App\Models\IbuHamilKek;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class DashboardController extends Controller
 {
@@ -100,7 +106,15 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
-        $year = (int) $request->input('year', now()->year);
+        $requestedYear = $request->input('year');
+
+        // Tahun yang tersedia dari berbagai tabel indikator utama
+        $availableYears = $this->getAvailableYearsFromSources();
+
+        // Jika tidak ada input tahun, pakai tahun terbaru yang tersedia, fallback ke tahun sekarang
+        $year = $requestedYear !== null
+            ? (int) $requestedYear
+            : (count($availableYears) ? (int) ($availableYears[0]) : (int) now()->year);
 
         // Data utama grafik & total per kategori
         [$chartData, $totals] = $this->buildChartData($year);
@@ -116,7 +130,11 @@ class DashboardController extends Controller
         [$sumAll, $needInput, $filledCategories, $inputCoverage] = $this->buildSummaryMetrics($chartData);
 
         // Tahun yang tersedia di database
-        $availableYears = $this->getAvailableYears($year);
+        // Pastikan tahun terpilih masuk ke daftar dropdown
+        if (! in_array($year, $availableYears, true)) {
+            $availableYears[] = $year;
+            rsort($availableYears);
+        }
 
         // 5 indikator utama (gender)
         $topGender = $this->buildTopGenderIndicators($year);
@@ -157,6 +175,19 @@ class DashboardController extends Controller
 
             'top_gender'        => $topGender,
             'total_peserta'     => $totalPeserta,
+            'totalTabletBesi'   => IbuHamilTabletBesi::where('tahun', $year)->sum(\DB::raw('fe1 + fe3')),
+            'totalIbuMeninggal' => (function () use ($year) {
+                $val = IbuHamilMeninggal::where('tahun', $year)->sum('jumlah');
+                return $val > 0 ? $val : IbuHamilMeninggal::sum('jumlah');
+            })(),
+            'totalIbuAnemia'    => (function () use ($year) {
+                $val = IbuHamilAnemia::where('tahun', $year)->sum('jumlah');
+                return $val > 0 ? $val : IbuHamilAnemia::sum('jumlah');
+            })(),
+            'totalIbuKek'       => (function () use ($year) {
+                $val = IbuHamilKek::where('tahun', $year)->sum('jumlah');
+                return $val > 0 ? $val : IbuHamilKek::sum('jumlah');
+            })(),
         ]);
     }
 
@@ -320,21 +351,34 @@ class DashboardController extends Controller
         return [$sumAll, $needInput, $filledCategories, $inputCoverage];
     }
 
-    private function getAvailableYears(int $year): array
+    /**
+     * Tahun yang tersedia digabung dari beberapa sumber indikator utama.
+     */
+    private function getAvailableYearsFromSources(): array
     {
-        $availableYears = PosyanduStat::select('year')
-            ->distinct()
-            ->orderBy('year', 'desc')
-            ->pluck('year')
-            ->toArray();
+        $sources = [
+            PosyanduStat::select('year'),
+            JumlahWusPus::select('year'),
+            JumlahPusKb::select('year'),
+            JumlahKbMket::select('year'),
+            JumlahKbNonMket::select('year'),
+            JumlahIbuHamil::select('year'),
+            IbuHamilTabletBesi::select('tahun as year'),
+            IbuHamilRisikoTinggi::select('tahun as year'),
+            IbuHamilAnemia::select('tahun as year'),
+            IbuHamilKek::select('tahun as year'),
+            IbuHamilMeninggal::select('tahun as year'),
+        ];
 
-        if (! in_array($year, $availableYears, true)) {
-            $availableYears[] = $year;
+        $years = [];
+        foreach ($sources as $query) {
+            $years = array_merge($years, $query->distinct()->pluck('year')->toArray());
         }
 
-        rsort($availableYears);
+        $years = array_values(array_unique(array_map('intval', $years)));
+        rsort($years);
 
-        return $availableYears;
+        return $years;
     }
 
     /**
@@ -374,15 +418,158 @@ class DashboardController extends Controller
                 'anchor' => 'item-5',
                 'model'  => JumlahIbuHamil::class,
             ],
+            [
+                'no'     => 6,
+                'label'  => 'Ibu Hamil mendapat Tablet Besi (FE I / FE III)',
+                'anchor' => 'item-6',
+                'model'  => IbuHamilTabletBesi::class,
+            ],
+            [
+                'no'     => 7,
+                'label'  => 'Jumlah Ibu Hamil Meninggal',
+                'anchor' => 'item-7',
+                'model'  => IbuHamilMeninggal::class,
+            ],
+            [
+                'no'     => 8,
+                'label'  => 'Ibu Hamil Risiko Tinggi',
+                'anchor' => 'item-8',
+                'model'  => IbuHamilRisikoTinggi::class,
+            ],
+            [
+                'no'     => 9,
+                'label'  => 'Jumlah Ibu Hamil Anemia',
+                'anchor' => 'item-9',
+                'model'  => IbuHamilAnemia::class,
+            ],
+            [
+                'no'     => 10,
+                'label'  => 'Jumlah Ibu Hamil KEK',
+                'anchor' => 'item-10',
+                'model'  => IbuHamilKek::class,
+            ],
         ];
 
         $result = [];
 
         foreach ($config as $row) {
-            $record = ($row['model'])::where('year', $year)->first();
+            $male = 0;
+            $female = 0;
+            $total = 0;
 
-            $male   = $record->male   ?? 0;
-            $female = $record->female ?? 0;
+            if ($row['model'] === JumlahWusPus::class) {
+                // WUS/PUS sekarang diinput per bulan tanpa pecahan gender.
+                $hasJumlahColumn = Schema::hasColumn('jumlah_wus_pus', 'jumlah');
+
+                if ($hasJumlahColumn) {
+                    $total = JumlahWusPus::where('year', $year)->sum('jumlah');
+                }
+
+                // Fallback ke kolom lama jika data belum menggunakan format baru.
+                if (! $hasJumlahColumn || $total <= 0) {
+                    $record = JumlahWusPus::where('year', $year)->first();
+                    $male   = $record->male   ?? 0;
+                    $female = $record->female ?? 0;
+                    $total  = $male + $female;
+                } else {
+                    $female = $total;
+                }
+            } elseif ($row['model'] === JumlahPusKb::class) {
+                $hasJumlahColumn = Schema::hasColumn('jumlah_pus_kb', 'jumlah');
+
+                if ($hasJumlahColumn) {
+                    $total = JumlahPusKb::where('year', $year)->sum('jumlah');
+                }
+
+                if (! $hasJumlahColumn || $total <= 0) {
+                    $record = JumlahPusKb::where('year', $year)->first();
+                    $male   = $record->male   ?? 0;
+                    $female = $record->female ?? 0;
+                    $total  = $male + $female;
+                } else {
+                    $female = $total;
+                }
+            } elseif ($row['model'] === JumlahKbMket::class) {
+                $hasJumlahColumn = Schema::hasColumn('jumlah_kb_mket', 'jumlah');
+
+                if ($hasJumlahColumn) {
+                    // Total per tahun terpilih (otomatis naik/turun saat tambah/hapus)
+                    $total = JumlahKbMket::where('year', $year)->sum('jumlah');
+                }
+
+                if (! $hasJumlahColumn || $total <= 0) {
+                    $record = JumlahKbMket::where('year', $year)->first();
+                    $male   = $record->male   ?? 0;
+                    $female = $record->female ?? 0;
+                    $total  = $male + $female;
+                } else {
+                    $female = $total;
+                }
+            } elseif ($row['model'] === JumlahKbNonMket::class) {
+                $hasJumlahColumn = Schema::hasColumn('jumlah_kb_non_mket', 'jumlah');
+
+                if ($hasJumlahColumn) {
+                    $total = JumlahKbNonMket::where('year', $year)->sum('jumlah');
+                }
+
+                if (! $hasJumlahColumn || $total <= 0) {
+                    $record = JumlahKbNonMket::where('year', $year)->first();
+                    $male   = $record->male   ?? 0;
+                    $female = $record->female ?? 0;
+                    $total  = $male + $female;
+                } else {
+                    $female = $total;
+                }
+            } elseif ($row['model'] === JumlahIbuHamil::class) {
+                $hasJumlahColumn = Schema::hasColumn('jumlah_ibu_hamil', 'jumlah');
+
+                if ($hasJumlahColumn) {
+                    $total = JumlahIbuHamil::where('year', $year)->sum('jumlah');
+                }
+
+                if (! $hasJumlahColumn || $total <= 0) {
+                    $record = JumlahIbuHamil::where('year', $year)->first();
+                    $male   = $record->male   ?? 0;
+                    $female = $record->female ?? 0;
+                    $total  = $male + $female;
+                } else {
+                    $female = $total;
+                }
+            } elseif ($row['model'] === IbuHamilTabletBesi::class) {
+                $total = IbuHamilTabletBesi::where('tahun', $year)
+                    ->sum(\DB::raw('fe1 + fe3'));
+                $female = $total;
+            } elseif ($row['model'] === IbuHamilMeninggal::class) {
+                $total = IbuHamilMeninggal::where('tahun', $year)->sum('jumlah');
+                if ($total <= 0) {
+                    // fallback jika tahun terpilih belum ada data
+                    $total = IbuHamilMeninggal::sum('jumlah');
+                }
+                $female = $total;
+            } elseif ($row['model'] === IbuHamilRisikoTinggi::class) {
+                $total = IbuHamilRisikoTinggi::where('tahun', $year)->sum('jumlah');
+                if ($total <= 0) {
+                    $total = IbuHamilRisikoTinggi::sum('jumlah');
+                }
+                $female = $total;
+            } elseif ($row['model'] === IbuHamilAnemia::class) {
+                $total = IbuHamilAnemia::where('tahun', $year)->sum('jumlah');
+                if ($total <= 0) {
+                    $total = IbuHamilAnemia::sum('jumlah');
+                }
+                $female = $total;
+            } elseif ($row['model'] === IbuHamilKek::class) {
+                $total = IbuHamilKek::where('tahun', $year)->sum('jumlah');
+                if ($total <= 0) {
+                    $total = IbuHamilKek::sum('jumlah');
+                }
+                $female = $total;
+            } else {
+                $record = ($row['model'])::where('year', $year)->first();
+                $male   = $record->male   ?? 0;
+                $female = $record->female ?? 0;
+                $total  = $male + $female;
+            }
 
             $result[] = [
                 'no'         => $row['no'],
@@ -390,7 +577,7 @@ class DashboardController extends Controller
                 'anchor'     => $row['anchor'],
                 'male'       => $male,
                 'female'     => $female,
-                'total'      => $male + $female,
+                'total'      => $total,
             ];
         }
 

@@ -4,15 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class JumlahIbuHamil extends Model
+class IbuHamilKek extends Model
 {
-    protected $table = 'jumlah_ibu_hamil';
+    protected $table = 'jumlah_ibu_hamil_kek';
 
     protected $fillable = [
-        'year',
+        'tahun',
         'bulan',
         'jumlah',
-        'male',
-        'female',
     ];
 }

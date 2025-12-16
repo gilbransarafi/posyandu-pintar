@@ -52,7 +52,7 @@
                     <nav class="space-y-1">
                         <a href="{{ route('dashboard') }}"
                             class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M3.75 3.75h7.5v7.5h-7.5zM12.75 3.75h7.5v4.5h-7.5zM12.75 10.5h7.5v9.75h-7.5zM3.75 12.75h7.5v7.5h-7.5z" />
@@ -63,7 +63,7 @@
                         {{-- Indikator Gender --}}
                         <a href="{{ route('wus-pus.index') }}"
                             class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-500" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-emerald-500" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M12 4.5v15m7.5-7.5h-15" />
@@ -73,7 +73,7 @@
 
                         <a href="{{ route('pus-kb.index') }}"
                             class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-500" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-sky-500" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M12 4.5v15m7.5-7.5h-15" />
@@ -83,7 +83,7 @@
 
                         <a href="{{ route('kb-mket.index') }}"
                             class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-500" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-purple-500" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M12 4.5v15m7.5-7.5h-15" />
@@ -93,7 +93,7 @@
 
                         <a href="{{ route('kb-non-mket.index') }}"
                             class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-500" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-orange-500" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M12 4.5v15m7.5-7.5h-15" />
@@ -103,21 +103,170 @@
 
                         <a href="{{ route('ibu-hamil.index') }}"
                             class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-500" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-rose-500" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
                             <span class="text-sm">Ibu Hamil</span>
                         </a>
-                    </nav>
+
+                        <a href="{{ route('ibu-hamil-tablet-besi.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Ibu Hamil (FE) I / (FE) III</span>
+                        </a>
+
+                        <a href="{{ route('ibu-hamil-meninggal.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah ibu hamil meninggal</span>
+                        </a>
+
+                        <a href="{{ route('ibu-hamil-risiko-tinggi.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Ibu Hamil dirujuk</span>
+                        </a>
+
+                        <a href="{{ route('ibu-hamil-anemia.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Ibu Hamil Anemia</span>
+                        </a>
+
+                        <a href="{{ route('ibu-hamil-kek.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Ibu Hamil KEK</span>
+                        </a>
+
+                        <a href="{{ route('kb-non-mket.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 shrink-0 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Ibu Hamil dapat imunisasi TT I / TT II</span>
+                        </a>
+
+                        <a href="{{ route('kb-non-mket.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 shrink-0 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Ibu Nifas yang mendapat Vitamin A</span>
+                        </a>
+
+                        <a href="{{ route('kb-non-mket.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Kelahiran</span>
+                        </a>
+
+                        <a href="{{ route('kb-non-mket.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Kematian Bayi / Balita</span>
+                        </a>
+
+                        <a href="{{ route('bayi-balita.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Bayi / Balita (S)</span>
+                        </a>
+
+                        <a href="{{ route('kb-non-mket.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 shrink-0 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Bayi / Balita yang memiliki KMS (K)</span>
+                        </a>
+
+                        <a href="{{ route('kb-non-mket.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 shrink-0 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Bayi / Balita yang ditimbang (D)</span>
+                        </a>
+
+                        <a href="{{ route('kb-non-mket.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 shrink-0 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Hasil penimbangan sesuai Rambu Gizi</span>
+                        </a>
+
+                        <a href="{{ route('kb-non-mket.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 shrink-0 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Balita Gizi Buruk (lama / baru)</span>
+                        </a>
+
+                        <a href="{{ route('kb-non-mket.index') }}"
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 shrink-0 text-orange-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <span class="text-sm">Jumlah Bayi / Balita yang memiliki KMS (K)</span>
+                        </a>
 
                     <p class="text-xs font-semibold text-gray-400 uppercase mb-3 mt-6">Lainnya</p>
 
                     <nav class="space-y-1">
                         <a href="{{ route('rekap.index') }}"
                             class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-gray-400" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.66V18a2.25 2.25 0 002.25 2.25H18" />
@@ -188,14 +337,36 @@
         {{-- KONTEN KANAN --}}
         <main class="flex-1 ml-[280px] bg-gray-50 overflow-y-auto h-screen">
             <div class="p-6 space-y-6">
+                {{-- Pilih Tahun Dashboard --}}
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500">Ringkasan peserta & indikator layanan</p>
+                    </div>
+                    <form method="GET" action="{{ route('dashboard') }}" class="flex items-center gap-2">
+                        <label class="text-sm text-gray-600">Tahun</label>
+                        <select name="year" onchange="this.form.submit()"
+                                class="rounded-lg border-gray-300 text-sm">
+                            @foreach($available_years as $y)
+                                <option value="{{ $y }}" @selected((int)$selected_year === (int)$y)>{{ $y }}</option>
+                            @endforeach
+                        </select>
+                    </form>
+                </div>
+
                 @php
+                    $byAnchor = collect($topGender)->keyBy('anchor');
                     $totalPeserta = $total_peserta ?? collect($topGender)->sum('total');
 
-                    $totalWusPus = $topGender[0]['total'] ?? 0;
-                    $totalPusKb = $topGender[1]['total'] ?? 0;
-                    $totalKbMket = $topGender[2]['total'] ?? 0;
-                    $totalKbNonMket = $topGender[3]['total'] ?? 0;
-                    $totalIbuHamil = $topGender[4]['total'] ?? 0;
+                    $totalWusPus       = $byAnchor['item-1']['total'] ?? 0;
+                    $totalPusKb        = $byAnchor['item-2']['total'] ?? 0;
+                    $totalKbMket       = $byAnchor['item-3']['total'] ?? 0;
+                    $totalKbNonMket    = $byAnchor['item-4']['total'] ?? 0;
+                    $totalIbuHamil     = $byAnchor['item-5']['total'] ?? 0;
+                    $totalTabletBesi   = $byAnchor['item-6']['total'] ?? ($totalTabletBesi ?? 0);
+                    $totalIbuMeninggal = $byAnchor['item-7']['total'] ?? ($totalIbuMeninggal ?? 0);
+                    $totalIbuRisiko    = $byAnchor['item-8']['total'] ?? 0;
+                    $totalIbuAnemia    = $byAnchor['item-9']['total'] ?? ($totalIbuAnemia ?? 0);
+                    $totalIbuKek       = $byAnchor['item-10']['total'] ?? ($totalIbuKek ?? 0);
                 @endphp
 
                 {{-- Success Message --}}
@@ -209,7 +380,8 @@
                 <section>
                     <h2 class="text-lg font-bold text-gray-900 mb-4">Indikator Utama - Tahun
                         {{ $selected_year }}</h2>
-                    <div class="grid grid-cols-5 gap-4">
+                    {{-- Baris utama --}}
+                    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
                         {{-- Total Peserta --}}
                         <div
                             class="rounded-2xl border border-gray-200 bg-white shadow-sm p-5 hover:shadow-md transition">
@@ -288,6 +460,25 @@
                             <p class="mt-2 text-xs text-purple-700 font-medium">Indikator 3</p>
                         </div>
 
+                        {{-- KB NON MKET --}}
+                        <div class="rounded-2xl border border-orange-200 bg-orange-50 shadow-sm p-5 hover:shadow-md transition cursor-pointer"
+                            onclick="window.location='{{ route('kb-non-mket.index') }}'">
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-orange-700 font-semibold uppercase">KB NON MKET</p>
+                                <span
+                                    class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-orange-200 text-orange-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M3 5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25v13.5A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75V5.25Zm4.5 2.25A1.25 1.25 0 1 0 6.25 8.75 1.25 1.25 0 0 0 7.5 7.5Zm-1.25 5a1.25 1.25 0 1 0 1.25 1.25A1.25 1.25 0 0 0 6.25 12.5Zm6.25-5.625a.625.625 0 0 0-.625.625v9a.625.625 0 0 0 1.25 0v-9A.625.625 0 0 0 12.5 6.875Zm4.375 0a.625.625 0 0 0-.625.625v9a.625.625 0 0 0 1.25 0v-9a.625.625 0 0 0-.625-.625Z" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <p class="mt-3 text-3xl font-bold text-orange-900">
+                                {{ number_format($totalKbNonMket) }}</p>
+                            <p class="mt-2 text-xs text-orange-700 font-medium">Indikator 4</p>
+                        </div>
+
                         {{-- Ibu Hamil --}}
                         <div class="rounded-2xl border border-rose-200 bg-rose-50 shadow-sm p-5 hover:shadow-md transition cursor-pointer"
                             onclick="window.location='{{ route('ibu-hamil.index') }}'">
@@ -305,6 +496,100 @@
                             <p class="mt-3 text-3xl font-bold text-rose-900">
                                 {{ number_format($totalIbuHamil) }}</p>
                             <p class="mt-2 text-xs text-rose-700 font-medium">Indikator 5</p>
+                        </div>
+                    </div>
+
+                    {{-- Baris tambahan: indikator khusus ibu hamil --}}
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4 pt-2">
+                        {{-- Ibu Hamil FE I / FE III --}}
+                        <div class="rounded-2xl border border-rose-200 bg-rose-50 shadow-sm p-5 hover:shadow-md transition cursor-pointer"
+                            onclick="window.location='{{ route('ibu-hamil-tablet-besi.index') }}'">
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-rose-700 font-semibold uppercase">Ibu Hamil FE I / FE III</p>
+                                <span
+                                    class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-rose-200 text-rose-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <p class="mt-3 text-3xl font-bold text-rose-900">
+                                {{ number_format($totalTabletBesi ?? 0) }}</p>
+                            <p class="mt-2 text-xs text-rose-700 font-medium">Indikator 6</p>
+                        </div>
+
+                        {{-- Ibu Hamil Risiko Tinggi --}}
+                        <div class="rounded-2xl border border-amber-200 bg-amber-50 shadow-sm p-5 hover:shadow-md transition cursor-pointer"
+                            onclick="window.location='{{ route('ibu-hamil-risiko-tinggi.index') }}'">
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-amber-700 font-semibold uppercase">Ibu Hamil Risiko Tinggi</p>
+                                <span
+                                    class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-amber-200 text-amber-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm.75 5a.75.75 0 0 0-1.5 0v5.25a.75.75 0 0 0 1.5 0ZM12 17a1.25 1.25 0 1 0-1.25-1.25A1.25 1.25 0 0 0 12 17Z"/>
+                                    </svg>
+                                </span>
+                            </div>
+                            <p class="mt-3 text-3xl font-bold text-amber-900">
+                                {{ number_format($totalIbuRisiko ?? 0) }}</p>
+                            <p class="mt-2 text-xs text-amber-700 font-medium">Indikator 8</p>
+                        </div>
+
+                        {{-- Ibu Hamil Meninggal --}}
+                        <div class="rounded-2xl border border-rose-300 bg-rose-50 shadow-sm p-5 hover:shadow-md transition cursor-pointer"
+                            onclick="window.location='{{ route('ibu-hamil-meninggal.index') }}'">
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-rose-700 font-semibold uppercase">Ibu Hamil Meninggal</p>
+                                <span
+                                    class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-rose-200 text-rose-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm-1 5a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0zm1 10a1.25 1.25 0 1 1 1.25-1.25A1.25 1.25 0 0 1 12 17z"/>
+                                    </svg>
+                                </span>
+                            </div>
+                            <p class="mt-3 text-3xl font-bold text-rose-900">
+                                {{ number_format($totalIbuMeninggal ?? 0) }}</p>
+                            <p class="mt-2 text-xs text-rose-700 font-medium">Indikator 7</p>
+                        </div>
+
+                        {{-- Ibu Hamil Anemia --}}
+                        <div class="rounded-2xl border border-pink-200 bg-pink-50 shadow-sm p-5 hover:shadow-md transition cursor-pointer"
+                            onclick="window.location='{{ route('ibu-hamil-anemia.index') }}'">
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-pink-700 font-semibold uppercase">Ibu Hamil Anemia</p>
+                                <span
+                                    class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-pink-200 text-pink-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 5a1 1 0 1 1-1 1 1 1 0 0 1 1-1Zm0 11a1.25 1.25 0 1 1 1.25-1.25A1.25 1.25 0 0 1 12 18.25Z"/>
+                                    </svg>
+                                </span>
+                            </div>
+                            <p class="mt-3 text-3xl font-bold text-pink-900">
+                                {{ number_format($totalIbuAnemia ?? 0) }}</p>
+                            <p class="mt-2 text-xs text-pink-700 font-medium">Indikator 9</p>
+                        </div>
+
+                        {{-- Ibu Hamil KEK --}}
+                        <div class="rounded-2xl border border-pink-200 bg-pink-50 shadow-sm p-5 hover:shadow-md transition cursor-pointer"
+                            onclick="window.location='{{ route('ibu-hamil-kek.index') }}'">
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-pink-700 font-semibold uppercase">Ibu Hamil KEK</p>
+                                <span
+                                    class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-pink-200 text-pink-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 5a1 1 0 1 1-1 1 1 1 0 0 1 1-1Zm0 11a1.25 1.25 0 1 1 1.25-1.25A1.25 1.25 0 0 1 12 18.25Z"/>
+                                    </svg>
+                                </span>
+                            </div>
+                            <p class="mt-3 text-3xl font-bold text-pink-900">
+                                {{ number_format($totalIbuKek ?? 0) }}</p>
+                            <p class="mt-2 text-xs text-pink-700 font-medium">Indikator 10</p>
                         </div>
                     </div>
                 </section>

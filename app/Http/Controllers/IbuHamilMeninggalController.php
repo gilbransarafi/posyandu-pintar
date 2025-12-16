@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\JumlahKbMket;
+use App\Models\IbuHamilMeninggal;
 use Illuminate\Http\Request;
 
-class JumlahKbMketController extends Controller
+class IbuHamilMeninggalController extends Controller
 {
     public function index(Request $request)
     {
         $year = (int) $request->input('tahun', now()->year);
 
-        $availableYears = JumlahKbMket::select('year')
+        $availableYears = IbuHamilMeninggal::select('tahun')
             ->distinct()
-            ->orderBy('year', 'desc')
-            ->pluck('year')
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun')
             ->toArray();
 
         if (! in_array($year, $availableYears, true)) {
@@ -22,12 +22,12 @@ class JumlahKbMketController extends Controller
             rsort($availableYears);
         }
 
-        $items = JumlahKbMket::where('year', $year)
+        $items = IbuHamilMeninggal::where('tahun', $year)
             ->orderByRaw("FIELD(bulan,'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember')")
             ->get();
 
-        return view('kb_mket.index', [
-            'title'           => 'Jumlah peserta KB MKET (MOP/MOW/IUD/Implant)',
+        return view('ibu_hamil_meninggal.index', [
+            'title'           => 'Jumlah Ibu Hamil yang Meninggal (Kehamilan/Persalinan)',
             'items'           => $items,
             'selected_year'   => $year,
             'available_years' => $availableYears,
@@ -38,11 +38,11 @@ class JumlahKbMketController extends Controller
     {
         $returnYear = (int) $request->query('tahun', now()->year);
 
-        return view('kb_mket.form', [
-            'title'       => 'Tambah Jumlah peserta KB MKET',
+        return view('ibu_hamil_meninggal.form', [
+            'title'       => 'Tambah Data Ibu Hamil Meninggal',
             'isEdit'      => false,
             'item'        => null,
-            'formAction'  => route('kb-mket.store'),
+            'formAction'  => route('ibu-hamil-meninggal.store'),
             'return_year' => $returnYear,
         ]);
     }
@@ -56,7 +56,8 @@ class JumlahKbMketController extends Controller
             'return_year' => 'nullable|integer',
         ]);
 
-        $exists = JumlahKbMket::where('year', $data['tahun'])
+        // Cegah dobel tahun+bulan
+        $exists = IbuHamilMeninggal::where('tahun', $data['tahun'])
             ->where('bulan', $data['bulan'])
             ->exists();
 
@@ -66,30 +67,30 @@ class JumlahKbMketController extends Controller
             ]);
         }
 
-        JumlahKbMket::create([
-            'year'   => $data['tahun'],
+        IbuHamilMeninggal::create([
+            'tahun'  => $data['tahun'],
             'bulan'  => $data['bulan'],
             'jumlah' => $data['jumlah'],
         ]);
 
-        return redirect()->route('kb-mket.index', ['tahun' => $data['tahun']])
-            ->with('success', 'Data KB MKET berhasil disimpan.');
+        return redirect()->route('ibu-hamil-meninggal.index', ['tahun' => $data['tahun']])
+            ->with('success', 'Data berhasil ditambahkan.');
     }
 
-    public function edit(Request $request, JumlahKbMket $kb_mket)
+    public function edit(Request $request, IbuHamilMeninggal $ibu_hamil_meninggal)
     {
-        $returnYear = (int) $request->query('tahun', $kb_mket->year);
+        $returnYear = (int) $request->query('tahun', $ibu_hamil_meninggal->tahun);
 
-        return view('kb_mket.form', [
-            'title'       => 'Edit Jumlah peserta KB MKET',
+        return view('ibu_hamil_meninggal.form', [
+            'title'       => 'Edit Data Ibu Hamil Meninggal',
             'isEdit'      => true,
-            'item'        => $kb_mket,
-            'formAction'  => route('kb-mket.update', $kb_mket->id),
+            'item'        => $ibu_hamil_meninggal,
+            'formAction'  => route('ibu-hamil-meninggal.update', $ibu_hamil_meninggal->id),
             'return_year' => $returnYear,
         ]);
     }
 
-    public function update(Request $request, JumlahKbMket $kb_mket)
+    public function update(Request $request, IbuHamilMeninggal $ibu_hamil_meninggal)
     {
         $data = $request->validate([
             'tahun'       => 'required|integer|min:2000|max:2100',
@@ -98,9 +99,9 @@ class JumlahKbMketController extends Controller
             'return_year' => 'nullable|integer',
         ]);
 
-        $exists = JumlahKbMket::where('year', $data['tahun'])
+        $exists = IbuHamilMeninggal::where('tahun', $data['tahun'])
             ->where('bulan', $data['bulan'])
-            ->where('id', '!=', $kb_mket->id)
+            ->where('id', '!=', $ibu_hamil_meninggal->id)
             ->exists();
 
         if ($exists) {
@@ -109,23 +110,23 @@ class JumlahKbMketController extends Controller
             ]);
         }
 
-        $kb_mket->update([
-            'year'   => $data['tahun'],
+        $ibu_hamil_meninggal->update([
+            'tahun'  => $data['tahun'],
             'bulan'  => $data['bulan'],
             'jumlah' => $data['jumlah'],
         ]);
 
-        return redirect()->route('kb-mket.index', ['tahun' => $data['tahun']])
-            ->with('success', 'Data KB MKET berhasil diperbarui.');
+        return redirect()->route('ibu-hamil-meninggal.index', ['tahun' => $data['tahun']])
+            ->with('success', 'Data berhasil diperbarui.');
     }
 
-    public function destroy(Request $request, JumlahKbMket $kb_mket)
+    public function destroy(Request $request, IbuHamilMeninggal $ibu_hamil_meninggal)
     {
-        $returnYear = (int) $request->query('tahun', $kb_mket->year ?? now()->year);
+        $returnYear = (int) $request->query('tahun', $ibu_hamil_meninggal->tahun ?? now()->year);
 
-        $kb_mket->delete();
+        $ibu_hamil_meninggal->delete();
 
-        return redirect()->route('kb-mket.index', ['tahun' => $returnYear])
-            ->with('success', 'Data KB MKET berhasil dihapus.');
+        return redirect()->route('ibu-hamil-meninggal.index', ['tahun' => $returnYear])
+            ->with('success', 'Data berhasil dihapus.');
     }
 }

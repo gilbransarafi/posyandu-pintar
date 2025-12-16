@@ -6,14 +6,19 @@
     </div>
 
     <div class="flex items-center gap-3">
-        @if(!empty($available_years))
+        @php
+            $yearsList = $available_years ?? [];
+            $currentYear = $selected_year ?? $year ?? request('year', now()->year);
+        @endphp
+
+        @if(!empty($yearsList))
             <form method="GET">
                 <select name="year"
                         class="h-9 rounded-lg border-gray-300 text-sm"
                         onchange="this.form.submit()">
-                    @foreach($available_years as $year)
-                        <option value="{{ $year }}" @selected($year == $selected_year)>
-                            {{ $year }}
+                    @foreach($yearsList as $y)
+                        <option value="{{ $y }}" @selected((int)$y === (int)$currentYear)>
+                            {{ $y }}
                         </option>
                     @endforeach
                 </select>

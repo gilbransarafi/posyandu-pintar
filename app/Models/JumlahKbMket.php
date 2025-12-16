@@ -10,6 +10,8 @@ class JumlahKbMket extends Model
 
     protected $fillable = [
         'year',
+        'bulan',
+        'jumlah',
         'male',
         'female',
     ];

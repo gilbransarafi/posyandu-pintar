@@ -6,75 +6,125 @@ use Illuminate\Http\Request;
 
 class JumlahWusPusController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = JumlahWusPus::orderBy('year', 'desc')->get();
+        $year = (int) $request->input('tahun', now()->year);
 
-        return view('indikator.index', [
-            'title'       => 'Jumlah WUS / PUS',
-            'routePrefix' => 'wus-pus',
-            'items'       => $items,
+        $availableYears = JumlahWusPus::select('year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+
+        if (! in_array($year, $availableYears, true)) {
+            $availableYears[] = $year;
+            rsort($availableYears);
+        }
+
+        $items = JumlahWusPus::where('year', $year)
+            ->orderByRaw("FIELD(bulan,'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember')")
+            ->get();
+
+        return view('wus_pus.index', [
+            'title'           => 'Jumlah WUS / PUS',
+            'items'           => $items,
+            'selected_year'   => $year,
+            'available_years' => $availableYears,
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('indikator.form', [
-            'title'       => 'Tambah Jumlah WUS / PUS',
-            'routePrefix' => 'wus-pus',
-            'item'        => null,
+        $returnYear = (int) $request->query('tahun', now()->year);
+
+        return view('wus_pus.form', [
+            'title'       => 'Tambah Data WUS / PUS',
             'isEdit'      => false,
+            'item'        => null,
             'formAction'  => route('wus-pus.store'),
+            'return_year' => $returnYear,
         ]);
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'year'   => 'required|integer|min:2000|max:2100',
-            'male'   => 'required|integer|min:0',
-            'female' => 'required|integer|min:0',
+            'tahun'       => 'required|integer|min:2000|max:2100',
+            'bulan'       => 'required|string|max:20',
+            'jumlah'      => 'required|integer|min:0',
+            'return_year' => 'nullable|integer',
         ]);
 
-        JumlahWusPus::updateOrCreate(
-            ['year' => $data['year']],
-            ['male' => $data['male'], 'female' => $data['female']]
-        );
+        $exists = JumlahWusPus::where('year', $data['tahun'])
+            ->where('bulan', $data['bulan'])
+            ->exists();
 
-        return redirect()->route('wus-pus.index')
+        if ($exists) {
+            return back()->withInput()->withErrors([
+                'bulan' => 'Data untuk tahun & bulan ini sudah ada. Silakan edit data yang ada.',
+            ]);
+        }
+
+        JumlahWusPus::create([
+            'year'   => $data['tahun'],
+            'bulan'  => $data['bulan'],
+            'jumlah' => $data['jumlah'],
+        ]);
+
+        return redirect()->route('wus-pus.index', ['tahun' => $data['tahun']])
             ->with('success', 'Data Jumlah WUS/PUS berhasil disimpan.');
     }
 
-    public function edit(JumlahWusPus $wus_pus)
+    public function edit(Request $request, JumlahWusPus $wus_pus)
     {
-        return view('indikator.form', [
-            'title'       => 'Edit Jumlah WUS / PUS',
-            'routePrefix' => 'wus-pus',
-            'item'        => $wus_pus,
+        $returnYear = (int) $request->query('tahun', $wus_pus->year);
+
+        return view('wus_pus.form', [
+            'title'       => 'Edit Data WUS / PUS',
             'isEdit'      => true,
+            'item'        => $wus_pus,
             'formAction'  => route('wus-pus.update', $wus_pus->id),
+            'return_year' => $returnYear,
         ]);
     }
 
     public function update(Request $request, JumlahWusPus $wus_pus)
     {
         $data = $request->validate([
-            'year'   => 'required|integer|min:2000|max:2100',
-            'male'   => 'required|integer|min:0',
-            'female' => 'required|integer|min:0',
+            'tahun'       => 'required|integer|min:2000|max:2100',
+            'bulan'       => 'required|string|max:20',
+            'jumlah'      => 'required|integer|min:0',
+            'return_year' => 'nullable|integer',
         ]);
 
-        $wus_pus->update($data);
+        $exists = JumlahWusPus::where('year', $data['tahun'])
+            ->where('bulan', $data['bulan'])
+            ->where('id', '!=', $wus_pus->id)
+            ->exists();
 
-        return redirect()->route('wus-pus.index')
+        if ($exists) {
+            return back()->withInput()->withErrors([
+                'bulan' => 'Data untuk tahun & bulan ini sudah ada.',
+            ]);
+        }
+
+        $wus_pus->update([
+            'year'   => $data['tahun'],
+            'bulan'  => $data['bulan'],
+            'jumlah' => $data['jumlah'],
+        ]);
+
+        return redirect()->route('wus-pus.index', ['tahun' => $data['tahun']])
             ->with('success', 'Data Jumlah WUS/PUS berhasil diperbarui.');
     }
 
-    public function destroy(JumlahWusPus $wus_pus)
+    public function destroy(Request $request, JumlahWusPus $wus_pus)
     {
+        $returnYear = (int) $request->query('tahun', $wus_pus->year ?? now()->year);
+
         $wus_pus->delete();
 
-        return redirect()->route('wus-pus.index')
+        return redirect()->route('wus-pus.index', ['tahun' => $returnYear])
             ->with('success', 'Data Jumlah WUS/PUS berhasil dihapus.');
     }
 }

@@ -56,8 +56,6 @@
                             <th class="px-3 py-2 text-left font-medium w-10">No</th>
                             <th class="px-3 py-2 text-left font-medium">Uraian</th>
                             <th class="px-3 py-2 text-right font-medium w-24">Jumlah</th>
-                            <th class="px-3 py-2 text-center font-medium w-28">L</th>
-                            <th class="px-3 py-2 text-center font-medium w-28">P</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -78,26 +76,6 @@
                                            value="{{ old("rekap.$code.value", $row['value'] ?? 0) }}"
                                            class="w-24 text-right rounded-md border-gray-300 text-xs sm:text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                                 </td>
-                                <td class="px-3 py-2 align-top text-center">
-                                    @if(!empty($row['has_gender']))
-                                        <input type="number" min="0"
-                                               name="rekap[{{ $code }}][male]"
-                                               value="{{ old("rekap.$code.male", $row['male'] ?? null) }}"
-                                               class="w-20 text-right rounded-md border-gray-300 text-xs sm:text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @else
-                                        <span class="text-[11px] text-gray-300">-</span>
-                                    @endif
-                                </td>
-                                <td class="px-3 py-2 align-top text-center">
-                                    @if(!empty($row['has_gender']))
-                                        <input type="number" min="0"
-                                               name="rekap[{{ $code }}][female]"
-                                               value="{{ old("rekap.$code.female", $row['female'] ?? null) }}"
-                                               class="w-20 text-right rounded-md border-gray-300 text-xs sm:text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @else
-                                        <span class="text-[11px] text-gray-300">-</span>
-                                    @endif
-                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -111,5 +89,11 @@
                 </button>
             </div>
         </form>
+
+        <div>
+            <a href="{{ route('dashboard') }}" class="text-sm text-gray-600 hover:underline">
+                Kembali ke Dashboard
+            </a>
+        </div>
     </div>
 @endsection

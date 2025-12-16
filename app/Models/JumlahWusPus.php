@@ -10,6 +10,8 @@ class JumlahWusPus extends Model
 
     protected $fillable = [
         'year',
+        'bulan',
+        'jumlah',
         'male',
         'female',
     ];

@@ -6,75 +6,125 @@ use Illuminate\Http\Request;
 
 class JumlahPusKbController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = JumlahPusKb::orderBy('year', 'desc')->get();
+        $year = (int) $request->input('tahun', now()->year);
 
-        return view('indikator.index', [
-            'title'       => 'Jumlah PUS ikut KB',
-            'routePrefix' => 'pus-kb',
-            'items'       => $items,
+        $availableYears = JumlahPusKb::select('year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+
+        if (! in_array($year, $availableYears, true)) {
+            $availableYears[] = $year;
+            rsort($availableYears);
+        }
+
+        $items = JumlahPusKb::where('year', $year)
+            ->orderByRaw("FIELD(bulan,'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember')")
+            ->get();
+
+        return view('pus_kb.index', [
+            'title'           => 'Jumlah PUS ikut KB',
+            'items'           => $items,
+            'selected_year'   => $year,
+            'available_years' => $availableYears,
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('indikator.form', [
-            'title'       => 'Tambah Jumlah PUS ikut KB',
-            'routePrefix' => 'pus-kb',
-            'item'        => null,
+        $returnYear = (int) $request->query('tahun', now()->year);
+
+        return view('pus_kb.form', [
+            'title'       => 'Tambah Data PUS ikut KB',
             'isEdit'      => false,
+            'item'        => null,
             'formAction'  => route('pus-kb.store'),
+            'return_year' => $returnYear,
         ]);
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'year'   => 'required|integer|min:2000|max:2100',
-            'male'   => 'required|integer|min:0',
-            'female' => 'required|integer|min:0',
+            'tahun'       => 'required|integer|min:2000|max:2100',
+            'bulan'       => 'required|string|max:20',
+            'jumlah'      => 'required|integer|min:0',
+            'return_year' => 'nullable|integer',
         ]);
 
-        JumlahPusKb::updateOrCreate(
-            ['year' => $data['year']],
-            ['male' => $data['male'], 'female' => $data['female']]
-        );
+        $exists = JumlahPusKb::where('year', $data['tahun'])
+            ->where('bulan', $data['bulan'])
+            ->exists();
 
-        return redirect()->route('pus-kb.index')
+        if ($exists) {
+            return back()->withInput()->withErrors([
+                'bulan' => 'Data untuk tahun & bulan ini sudah ada. Silakan edit data yang ada.',
+            ]);
+        }
+
+        JumlahPusKb::create([
+            'year'   => $data['tahun'],
+            'bulan'  => $data['bulan'],
+            'jumlah' => $data['jumlah'],
+        ]);
+
+        return redirect()->route('pus-kb.index', ['tahun' => $data['tahun']])
             ->with('success', 'Data Jumlah PUS ikut KB berhasil disimpan.');
     }
 
-    public function edit(JumlahPusKb $pus_kb)
+    public function edit(Request $request, JumlahPusKb $pus_kb)
     {
-        return view('indikator.form', [
-            'title'       => 'Edit Jumlah PUS ikut KB',
-            'routePrefix' => 'pus-kb',
-            'item'        => $pus_kb,
+        $returnYear = (int) $request->query('tahun', $pus_kb->year);
+
+        return view('pus_kb.form', [
+            'title'       => 'Edit Data PUS ikut KB',
             'isEdit'      => true,
+            'item'        => $pus_kb,
             'formAction'  => route('pus-kb.update', $pus_kb->id),
+            'return_year' => $returnYear,
         ]);
     }
 
     public function update(Request $request, JumlahPusKb $pus_kb)
     {
         $data = $request->validate([
-            'year'   => 'required|integer|min:2000|max:2100',
-            'male'   => 'required|integer|min:0',
-            'female' => 'required|integer|min:0',
+            'tahun'       => 'required|integer|min:2000|max:2100',
+            'bulan'       => 'required|string|max:20',
+            'jumlah'      => 'required|integer|min:0',
+            'return_year' => 'nullable|integer',
         ]);
 
-        $pus_kb->update($data);
+        $exists = JumlahPusKb::where('year', $data['tahun'])
+            ->where('bulan', $data['bulan'])
+            ->where('id', '!=', $pus_kb->id)
+            ->exists();
 
-        return redirect()->route('pus-kb.index')
+        if ($exists) {
+            return back()->withInput()->withErrors([
+                'bulan' => 'Data untuk tahun & bulan ini sudah ada.',
+            ]);
+        }
+
+        $pus_kb->update([
+            'year'   => $data['tahun'],
+            'bulan'  => $data['bulan'],
+            'jumlah' => $data['jumlah'],
+        ]);
+
+        return redirect()->route('pus-kb.index', ['tahun' => $data['tahun']])
             ->with('success', 'Data Jumlah PUS ikut KB berhasil diperbarui.');
     }
 
-    public function destroy(JumlahPusKb $pus_kb)
+    public function destroy(Request $request, JumlahPusKb $pus_kb)
     {
+        $returnYear = (int) $request->query('tahun', $pus_kb->year ?? now()->year);
+
         $pus_kb->delete();
 
-        return redirect()->route('pus-kb.index')
+        return redirect()->route('pus-kb.index', ['tahun' => $returnYear])
             ->with('success', 'Data Jumlah PUS ikut KB berhasil dihapus.');
     }
 }

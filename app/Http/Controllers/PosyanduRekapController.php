@@ -3,6 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\PosyanduRekap;
+use App\Models\JumlahWusPus;
+use App\Models\JumlahPusKb;
+use App\Models\JumlahKbMket;
+use App\Models\JumlahKbNonMket;
+use App\Models\JumlahIbuHamil;
+use App\Models\IbuHamilTabletBesi;
+use App\Models\IbuHamilRisikoTinggi;
+use App\Models\IbuHamilMeninggal;
+use App\Models\IbuHamilAnemia;
+use App\Models\IbuHamilKek;
 use Illuminate\Http\Request;
 
 class PosyanduRekapController extends Controller
@@ -11,44 +21,43 @@ class PosyanduRekapController extends Controller
      * konfigurasi 32 item (sesuai kertas)
      * ini sama ide-nya seperti di DashboardController
      */
-    private array $rekapConfig = [
+        private array $rekapConfig = [
         ['no' => 1,  'label' => 'Jumlah WUS / PUS', 'anchor' => 'item-1'],
         ['no' => 2,  'label' => 'Jumlah PUS ikut KB', 'anchor' => 'item-2'],
         ['no' => 3,  'label' => 'Jumlah peserta KB MKET (MOP/MOW/IUD/Implant)', 'anchor' => 'item-3'],
         ['no' => 4,  'label' => 'Jumlah peserta KB non MKET (Suntik/Pil/Kondom)', 'anchor' => 'item-4'],
         ['no' => 5,  'label' => 'Jumlah Ibu Hamil', 'anchor' => 'item-5'],
         ['no' => 6,  'label' => 'Jumlah Ibu Hamil yang mendapat tablet besi (FE)', 'anchor' => 'item-6'],
-        ['no' => 7,  'label' => 'Jumlah Ibu Hamil risiko tinggi', 'anchor' => 'item-7'],
-        ['no' => 8,  'label' => 'Jumlah Ibu Hamil risiko tinggi yang dirujuk', 'anchor' => 'item-8'],
-        ['no' => 9,  'label' => 'Jumlah Ibu Hamil Anemia', 'anchor' => 'item-9'],
-        ['no' => 10, 'label' => 'Jumlah Ibu Hamil KEK', 'anchor' => 'item-10'],
-        ['no' => 11, 'label' => 'Jumlah Ibu Hamil dapat imunisasi TT I / TT II', 'anchor' => 'item-11'],
-        ['no' => 12, 'label' => 'Jumlah Ibu Hamil meninggal (Kehamilan/Persalinan)', 'anchor' => 'item-12'],
-        ['no' => 13, 'label' => 'Jumlah Ibu Nifas yang mendapat Vitamin A', 'anchor' => 'item-13'],
-        ['no' => 14, 'label' => 'Jumlah Kelahiran', 'anchor' => 'item-14'],
-        ['no' => 15, 'label' => 'Jumlah Kematian Bayi / Balita', 'anchor' => 'item-15'],
+        ['no' => 7,  'label' => 'Jumlah Ibu Hamil risiko tinggi yang dirujuk', 'anchor' => 'item-7'],
+        ['no' => 8,  'label' => 'Jumlah Ibu Hamil Anemia', 'anchor' => 'item-8'],
+        ['no' => 9,  'label' => 'Jumlah Ibu Hamil KEK', 'anchor' => 'item-9'],
+        ['no' => 10, 'label' => 'Jumlah Ibu Hamil dapat imunisasi TT I / TT II', 'anchor' => 'item-10'],
+        ['no' => 11, 'label' => 'Jumlah Ibu Hamil meninggal (Kehamilan/Persalinan)', 'anchor' => 'item-11'],
+        ['no' => 12, 'label' => 'Jumlah Ibu Nifas yang mendapat Vitamin A', 'anchor' => 'item-12'],
+        ['no' => 13, 'label' => 'Jumlah Kelahiran', 'anchor' => 'item-13'],
+        ['no' => 14, 'label' => 'Jumlah Kematian Bayi / Balita', 'anchor' => 'item-14'],
         [
-            'no'    => 16,
+            'no'    => 15,
             'label' => 'Jumlah Bayi / Balita (S)',
-            'anchor'=> 'item-16',
+            'anchor'=> 'item-15',
             'has_gender' => true,
         ],
-        ['no' => 17, 'label' => 'Jumlah Bayi / Balita yang memiliki KMS (K)', 'anchor' => 'item-17'],
-        ['no' => 18, 'label' => 'Jumlah Bayi / Balita yang ditimbang (D)', 'anchor' => 'item-18'],
-        ['no' => 19, 'label' => 'Hasil penimbangan sesuai Rambu Gizi', 'anchor' => 'item-19'],
-        ['no' => 20, 'label' => 'Jumlah Balita Gizi Buruk (lama / baru)', 'anchor' => 'item-20'],
-        ['no' => 21, 'label' => 'Balita Gizi Buruk yang mendapat Perawatan (lama / baru)', 'anchor' => 'item-21'],
-        ['no' => 22, 'label' => 'Jumlah Balita Bawah Garis Merah (BGM) (lama / baru)', 'anchor' => 'item-22'],
-        ['no' => 23, 'label' => 'Jumlah Balita yang tidak naik BB 2x berturut-turut', 'anchor' => 'item-23'],
-        ['no' => 24, 'label' => 'Jumlah Bayi 6–24 bln Gakin mendapat MP-ASI', 'anchor' => 'item-24'],
-        ['no' => 25, 'label' => 'Jumlah Bayi 6–11 bln mendapat kapsul Vit A', 'anchor' => 'item-25'],
-        ['no' => 26, 'label' => 'Jumlah Bayi/Anak 12–59 bln mendapat kapsul Vit A', 'anchor' => 'item-26'],
-        ['no' => 27, 'label' => 'Jumlah Balita yang mendapat PMT Pemulihan', 'anchor' => 'item-27'],
-        ['no' => 28, 'label' => 'Jumlah Bayi yang mendapat imunisasi BCG', 'anchor' => 'item-28'],
-        ['no' => 29, 'label' => 'Jumlah Bayi yang mendapat imunisasi Campak', 'anchor' => 'item-29'],
-        ['no' => 30, 'label' => 'Jumlah Bayi yang mendapat imunisasi Polio', 'anchor' => 'item-30'],
-        ['no' => 31, 'label' => 'Jumlah Bayi/Anak ASI Eksklusif', 'anchor' => 'item-31'],
-        ['no' => 32, 'label' => 'Jumlah Bayi BBLR', 'anchor' => 'item-32'],
+        ['no' => 16, 'label' => 'Jumlah Bayi / Balita yang memiliki KMS (K)', 'anchor' => 'item-16'],
+        ['no' => 17, 'label' => 'Jumlah Bayi / Balita yang ditimbang (D)', 'anchor' => 'item-17'],
+        ['no' => 18, 'label' => 'Hasil penimbangan sesuai Rambu Gizi', 'anchor' => 'item-18'],
+        ['no' => 19, 'label' => 'Jumlah Balita Gizi Buruk (lama / baru)', 'anchor' => 'item-19'],
+        ['no' => 20, 'label' => 'Balita Gizi Buruk yang mendapat Perawatan (lama / baru)', 'anchor' => 'item-20'],
+        ['no' => 21, 'label' => 'Jumlah Balita Bawah Garis Merah (BGM) (lama / baru)', 'anchor' => 'item-21'],
+        ['no' => 22, 'label' => 'Jumlah Balita yang tidak naik BB 2x berturut-turut', 'anchor' => 'item-22'],
+        ['no' => 23, 'label' => 'Jumlah Bayi 6-24 bln Gakin mendapat MP-ASI', 'anchor' => 'item-23'],
+        ['no' => 24, 'label' => 'Jumlah Bayi 6-11 bln mendapat kapsul Vit A', 'anchor' => 'item-24'],
+        ['no' => 25, 'label' => 'Jumlah Bayi/Anak 12-59 bln mendapat kapsul Vit A', 'anchor' => 'item-25'],
+        ['no' => 26, 'label' => 'Jumlah Balita yang mendapat PMT Pemulihan', 'anchor' => 'item-26'],
+        ['no' => 27, 'label' => 'Jumlah Bayi yang mendapat imunisasi BCG', 'anchor' => 'item-27'],
+        ['no' => 28, 'label' => 'Jumlah Bayi yang mendapat imunisasi Campak', 'anchor' => 'item-28'],
+        ['no' => 29, 'label' => 'Jumlah Bayi yang mendapat imunisasi Polio', 'anchor' => 'item-29'],
+        ['no' => 30, 'label' => 'Jumlah Bayi/Anak ASI Eksklusif', 'anchor' => 'item-30'],
+        ['no' => 31, 'label' => 'Jumlah Bayi BBLR', 'anchor' => 'item-31'],
     ];
 
     /**
@@ -59,16 +68,28 @@ class PosyanduRekapController extends Controller
         $year = (int) $request->input('year', now()->year);
 
         $rekapDb = PosyanduRekap::where('year', $year)->get()->keyBy('code');
+        $autoValues = $this->buildAutoValues($year);
 
         $rekapList = array_map(function (array $item) use ($rekapDb) {
             $code = $item['anchor'];
 
-            $item['value']  = $rekapDb[$code]->value  ?? 0;
+            $item['value']  = $rekapDb[$code]->value  ?? null;
             $item['male']   = $rekapDb[$code]->male   ?? null;
             $item['female'] = $rekapDb[$code]->female ?? null;
 
             return $item;
         }, $this->rekapConfig);
+
+        // isi otomatis (override) dari tabel indikator agar selalu sinkron dengan data per tahun
+        $rekapList = array_map(function (array $item) use ($autoValues) {
+            $code = $item['anchor'];
+            if (isset($autoValues[$code])) {
+                $item['value']  = $autoValues[$code]['value']  ?? 0;
+                $item['male']   = $autoValues[$code]['male']   ?? null;
+                $item['female'] = $autoValues[$code]['female'] ?? null;
+            }
+            return $item;
+        }, $rekapList);
 
         return view('rekap.index', [
             'selected_year' => $year,
@@ -117,4 +138,50 @@ class PosyanduRekapController extends Controller
             ->route('rekap.index', ['year' => $year])
             ->with('success', 'Rekap berhasil disimpan.');
     }
+
+    /**
+     * Bangun nilai default rekap dari tabel-tabel indikator utama.
+     */
+    private function buildAutoValues(int $year): array
+    {
+        $vals = [];
+
+        // Helper gender lama (male/female) atau jumlah baru
+        $genderSum = function ($model, string $table) use ($year) {
+            $hasJumlah = \Schema::hasColumn($table, 'jumlah');
+            $total = 0;
+            $male = null;
+            $female = null;
+
+            if ($hasJumlah) {
+                $total = $model::where('year', $year)->sum('jumlah');
+            } else {
+                $row = $model::where('year', $year)->first();
+                $male = $row->male ?? 0;
+                $female = $row->female ?? 0;
+                $total = $male + $female;
+            }
+
+            return ['value' => $total, 'male' => $male, 'female' => $female];
+        };
+
+        $vals['item-1'] = $genderSum(JumlahWusPus::class, 'jumlah_wus_pus');
+        $vals['item-2'] = $genderSum(JumlahPusKb::class, 'jumlah_pus_kb');
+        $vals['item-3'] = $genderSum(JumlahKbMket::class, 'jumlah_kb_mket');
+        $vals['item-4'] = $genderSum(JumlahKbNonMket::class, 'jumlah_kb_non_mket');
+        $vals['item-5'] = $genderSum(JumlahIbuHamil::class, 'jumlah_ibu_hamil');
+
+        $vals['item-6'] = [
+            'value' => IbuHamilTabletBesi::where('tahun', $year)->sum(\DB::raw('fe1 + fe3')),
+        ];
+
+        $vals['item-7'] = ['value' => IbuHamilRisikoTinggi::where('tahun', $year)->sum('jumlah')];
+        $vals['item-8'] = ['value' => IbuHamilAnemia::where('tahun', $year)->sum('jumlah')];
+        $vals['item-9'] = ['value' => IbuHamilKek::where('tahun', $year)->sum('jumlah')];
+        $vals['item-11'] = ['value' => IbuHamilMeninggal::where('tahun', $year)->sum('jumlah')];
+
+        return $vals;
+    }
 }
+
+

@@ -7,75 +7,125 @@ use Illuminate\Http\Request;
 
 class JumlahIbuHamilController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = JumlahIbuHamil::orderBy('year', 'desc')->get();
+        $year = (int) $request->input('tahun', now()->year);
 
-        return view('indikator.index', [
-            'title'       => 'Jumlah Ibu Hamil',
-            'routePrefix' => 'ibu-hamil',
-            'items'       => $items,
+        $availableYears = JumlahIbuHamil::select('year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+
+        if (! in_array($year, $availableYears, true)) {
+            $availableYears[] = $year;
+            rsort($availableYears);
+        }
+
+        $items = JumlahIbuHamil::where('year', $year)
+            ->orderByRaw("FIELD(bulan,'Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember')")
+            ->get();
+
+        return view('ibu_hamil.index', [
+            'title'           => 'Jumlah Ibu Hamil',
+            'items'           => $items,
+            'selected_year'   => $year,
+            'available_years' => $availableYears,
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('indikator.form', [
+        $returnYear = (int) $request->query('tahun', now()->year);
+
+        return view('ibu_hamil.form', [
             'title'       => 'Tambah Jumlah Ibu Hamil',
-            'routePrefix' => 'ibu-hamil',
-            'item'        => null,
             'isEdit'      => false,
+            'item'        => null,
             'formAction'  => route('ibu-hamil.store'),
+            'return_year' => $returnYear,
         ]);
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'year'   => 'required|integer|min:2000|max:2100',
-            'male'   => 'required|integer|min:0',
-            'female' => 'required|integer|min:0',
+            'tahun'       => 'required|integer|min:2000|max:2100',
+            'bulan'       => 'required|string|max:20',
+            'jumlah'      => 'required|integer|min:0',
+            'return_year' => 'nullable|integer',
         ]);
 
-        JumlahIbuHamil::updateOrCreate(
-            ['year' => $data['year']],
-            ['male' => $data['male'], 'female' => $data['female']]
-        );
+        $exists = JumlahIbuHamil::where('year', $data['tahun'])
+            ->where('bulan', $data['bulan'])
+            ->exists();
 
-        return redirect()->route('ibu-hamil.index')
+        if ($exists) {
+            return back()->withInput()->withErrors([
+                'bulan' => 'Data untuk tahun & bulan ini sudah ada. Silakan edit data yang ada.',
+            ]);
+        }
+
+        JumlahIbuHamil::create([
+            'year'   => $data['tahun'],
+            'bulan'  => $data['bulan'],
+            'jumlah' => $data['jumlah'],
+        ]);
+
+        return redirect()->route('ibu-hamil.index', ['tahun' => $data['tahun']])
             ->with('success', 'Data Ibu Hamil berhasil disimpan.');
     }
 
-    public function edit(JumlahIbuHamil $ibu_hamil)
+    public function edit(Request $request, JumlahIbuHamil $ibu_hamil)
     {
-        return view('indikator.form', [
+        $returnYear = (int) $request->query('tahun', $ibu_hamil->year);
+
+        return view('ibu_hamil.form', [
             'title'       => 'Edit Jumlah Ibu Hamil',
-            'routePrefix' => 'ibu-hamil',
-            'item'        => $ibu_hamil,
             'isEdit'      => true,
+            'item'        => $ibu_hamil,
             'formAction'  => route('ibu-hamil.update', $ibu_hamil->id),
+            'return_year' => $returnYear,
         ]);
     }
 
     public function update(Request $request, JumlahIbuHamil $ibu_hamil)
     {
         $data = $request->validate([
-            'year'   => 'required|integer|min:2000|max:2100',
-            'male'   => 'required|integer|min:0',
-            'female' => 'required|integer|min:0',
+            'tahun'       => 'required|integer|min:2000|max:2100',
+            'bulan'       => 'required|string|max:20',
+            'jumlah'      => 'required|integer|min:0',
+            'return_year' => 'nullable|integer',
         ]);
 
-        $ibu_hamil->update($data);
+        $exists = JumlahIbuHamil::where('year', $data['tahun'])
+            ->where('bulan', $data['bulan'])
+            ->where('id', '!=', $ibu_hamil->id)
+            ->exists();
 
-        return redirect()->route('ibu-hamil.index')
+        if ($exists) {
+            return back()->withInput()->withErrors([
+                'bulan' => 'Data untuk tahun & bulan ini sudah ada.',
+            ]);
+        }
+
+        $ibu_hamil->update([
+            'year'   => $data['tahun'],
+            'bulan'  => $data['bulan'],
+            'jumlah' => $data['jumlah'],
+        ]);
+
+        return redirect()->route('ibu-hamil.index', ['tahun' => $data['tahun']])
             ->with('success', 'Data Ibu Hamil berhasil diperbarui.');
     }
 
-    public function destroy(JumlahIbuHamil $ibu_hamil)
+    public function destroy(Request $request, JumlahIbuHamil $ibu_hamil)
     {
+        $returnYear = (int) $request->query('tahun', $ibu_hamil->year ?? now()->year);
+
         $ibu_hamil->delete();
 
-        return redirect()->route('ibu-hamil.index')
+        return redirect()->route('ibu-hamil.index', ['tahun' => $returnYear])
             ->with('success', 'Data Ibu Hamil berhasil dihapus.');
     }
 }
