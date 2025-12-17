@@ -13,6 +13,7 @@ use App\Models\IbuHamilRisikoTinggi;
 use App\Models\IbuHamilMeninggal;
 use App\Models\IbuHamilAnemia;
 use App\Models\IbuHamilKek;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class PosyanduRekapController extends Controller
@@ -140,6 +141,54 @@ class PosyanduRekapController extends Controller
     }
 
     /**
+     * Unduh PDF format rekap 1-32.
+     */
+    public function download(Request $request)
+    {
+        $year = (int) $request->input('year', now()->year);
+
+        $rekapDb = PosyanduRekap::where('year', $year)->get()->keyBy('code');
+        $autoValues = $this->buildAutoValues($year);
+
+        $rekapList = array_map(function (array $item) use ($rekapDb) {
+            $code = $item['anchor'];
+            $item['value']  = $rekapDb[$code]->value  ?? null;
+            $item['male']   = $rekapDb[$code]->male   ?? null;
+            $item['female'] = $rekapDb[$code]->female ?? null;
+
+            return $item;
+        }, $this->rekapConfig);
+
+        $rekapList = array_map(function (array $item) use ($autoValues) {
+            $code = $item['anchor'];
+            if (isset($autoValues[$code])) {
+                $item['value']  = $autoValues[$code]['value']  ?? 0;
+                $item['male']   = $autoValues[$code]['male']   ?? null;
+                $item['female'] = $autoValues[$code]['female'] ?? null;
+            }
+            return $item;
+        }, $rekapList);
+
+        $meta = [
+            'title'      => 'FORMAT 5 REKAP HASIL KEGIATAN POSYANDU',
+            'posyandu'   => $request->input('posyandu', config('app.name', 'Posyandu')),
+            'kelurahan'  => $request->input('kelurahan'),
+            'puskesmas'  => $request->input('puskesmas'),
+            'kecamatan'  => $request->input('kecamatan'),
+            'kota'       => $request->input('kota'),
+            'bulan'      => $request->input('bulan'),
+            'year'       => $year,
+        ];
+
+        $pdf = Pdf::loadView('rekap.pdf', [
+            'meta'       => $meta,
+            'rekap_list' => $rekapList,
+        ])->setPaper('a4', 'portrait');
+
+        return $pdf->download("rekap-posyandu-{$year}.pdf");
+    }
+
+    /**
      * Bangun nilai default rekap dari tabel-tabel indikator utama.
      */
     private function buildAutoValues(int $year): array
@@ -183,5 +232,4 @@ class PosyanduRekapController extends Controller
         return $vals;
     }
 }
-
 

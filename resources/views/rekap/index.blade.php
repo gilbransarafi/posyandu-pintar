@@ -25,6 +25,14 @@
                     Ganti
                 </button>
             </form>
+
+            <div class="flex items-center gap-2">
+                <a href="{{ route('rekap.pdf', ['year' => $selected_year]) }}"
+                   class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700"
+                   target="_blank" rel="noopener">
+                    Download PDF
+                </a>
+            </div>
         </div>
 
         @if(session('success'))

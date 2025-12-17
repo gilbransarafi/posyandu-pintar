@@ -53,6 +53,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [PosyanduRekapController::class, 'index'])
             ->name('index');
 
+        Route::get('/pdf', [PosyanduRekapController::class, 'download'])
+            ->name('pdf');
+
         Route::post('/', [PosyanduRekapController::class, 'store'])
             ->name('store');
 
