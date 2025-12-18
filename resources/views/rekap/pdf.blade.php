@@ -34,21 +34,11 @@
             border-collapse: collapse;
             margin-top: 8px;
         }
-        th, td {
-            border: 1px solid #1f2937;
-            padding: 4px 6px;
-            vertical-align: top;
-        }
-        th {
-            background: #f3f4f6;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
+        th, td { border: 1px solid #1f2937; padding: 4px 6px; vertical-align: top; }
+        th { background: #f3f4f6; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
         .col-no { width: 30px; text-align: center; }
-        .col-uraian { width: 60%; }
-        .col-gender { width: 50px; text-align: center; }
-        .col-total { width: 70px; text-align: center; }
+        .col-uraian { width: 70%; }
+        .col-total { width: 90px; text-align: center; }
         .small-note { font-size: 10px; color: #6b7280; margin-top: 6px; }
     </style>
 </head>
@@ -69,8 +59,6 @@
             <tr>
                 <th class="col-no">No</th>
                 <th class="col-uraian">Uraian</th>
-                <th class="col-gender">L</th>
-                <th class="col-gender">P</th>
                 <th class="col-total">Jumlah</th>
             </tr>
         </thead>
@@ -85,8 +73,6 @@
                 <tr>
                     <td class="col-no">{{ $row['no'] }}</td>
                     <td class="col-uraian">{{ $row['label'] }}</td>
-                    <td class="col-gender">{{ $male !== null ? number_format($male) : '' }}</td>
-                    <td class="col-gender">{{ $female !== null ? number_format($female) : '' }}</td>
                     <td class="col-total">{{ number_format($jumlah) }}</td>
                 </tr>
             @endforeach
